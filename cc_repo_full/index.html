@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout Champs</title>
+  <meta name="description" content="Turn checkout hesitation into an earned reward moment." />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,0.06);
+      --panel-strong: rgba(15,23,42,0.9);
+      --line: rgba(255,255,255,0.1);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.72);
+      --gold: #fbbf24;
+      --gold-2: #fde68a;
+      --shadow: 0 25px 80px rgba(0,0,0,0.35);
+      --radius: 28px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(245,158,11,0.18), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(59,130,246,0.18), transparent 25%),
+        var(--bg);
+      color: var(--text);
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 24px 72px; }
+    .nav {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 16px 20px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+    }
+    .brand-kicker { font-size: 12px; text-transform: uppercase; letter-spacing: 0.35em; color: var(--gold); font-weight: 700; }
+    .brand-sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .nav-links { display: flex; gap: 22px; color: var(--muted); font-size: 14px; }
+    .hero { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 36px; align-items: center; padding-top: 64px; }
+    h1 { margin: 0; font-size: clamp(48px, 7vw, 84px); line-height: 0.95; letter-spacing: -0.03em; }
+    .lede { max-width: 700px; margin-top: 24px; color: var(--muted); font-size: 21px; line-height: 1.7; }
+    .cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 54px; padding: 0 24px; border-radius: 18px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.18em; font-size: 13px; border: 1px solid transparent; cursor: pointer;
+    }
+    .btn-primary { background: var(--gold); color: #111827; box-shadow: 0 20px 80px rgba(251,191,36,0.24); }
+    .btn-secondary { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.14); }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 34px; }
+    .stat, .card, .price, .settings-panel, .live-preview, .section-panel {
+      border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius);
+      box-shadow: var(--shadow); backdrop-filter: blur(10px);
+    }
+    .stat { padding: 22px; }
+    .stat strong { display:block; font-size: 34px; color: var(--gold); margin-bottom: 8px; }
+    .stat span { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .live-preview { padding: 18px; }
+    .live-inner { border-radius: 24px; border: 1px solid var(--line); background: rgba(2,6,23,0.75); padding: 22px; }
+    .pill { display:inline-flex; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); font-size:12px; color: var(--muted); }
+    .preview-top { display:flex; justify-content:space-between; align-items:center; gap:12px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.28em; color: var(--gold); font-size: 12px; font-weight:700; }
+    .preview-title { font-size: 22px; font-weight: 800; margin-top: 6px; }
+    .challenge { margin-top: 18px; border-radius: 22px; border: 1px solid var(--line); padding: 20px; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.8)); }
+    .challenge-row { display:flex; justify-content:space-between; color: var(--muted); font-size:14px; margin-bottom: 14px; }
+    .bar { position:relative; height:32px; border-radius:999px; border:1px solid var(--line); overflow:hidden; background: linear-gradient(90deg,#f87171 0%, #fbbf24 38%, #4ade80 50%, #fbbf24 62%, #f87171 100%); }
+    .center-zone { position:absolute; left:50%; top:0; transform:translateX(-50%); width:18%; height:100%; border-left:2px solid rgba(255,255,255,0.8); border-right:2px solid rgba(255,255,255,0.8); background: rgba(255,255,255,0.1); }
+    .marker { position:absolute; left:56%; top:0; transform:translateX(-50%); width:16px; height:100%; background:white; border-radius:12px; box-shadow:0 0 20px rgba(255,255,255,0.8); }
+    .note { margin-top: 14px; border-radius: 18px; border:1px solid rgba(251,191,36,0.25); background: rgba(251,191,36,0.12); padding: 14px; color: #fde68a; font-size: 14px; line-height: 1.6; }
+    .mini-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top: 16px; }
+    .mini { border:1px solid var(--line); border-radius:18px; padding:16px; background: rgba(255,255,255,0.05); text-align:center; }
+    .mini label { display:block; text-transform:uppercase; letter-spacing:0.2em; font-size:11px; color: rgba(255,255,255,0.45); }
+    .mini strong { display:block; margin-top:10px; font-size: 28px; color: var(--gold); }
+    .section { padding-top: 100px; }
+    .section-head { max-width: 760px; margin-bottom: 32px; }
+    .section-head h2 { margin: 10px 0 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.05; }
+    .section-head p { color: var(--muted); font-size: 19px; line-height: 1.7; }
+    .grid-3 { display:grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .card { padding: 26px; }
+    .card h3 { margin: 14px 0 0; font-size: 28px; }
+    .card p { color: var(--muted); line-height: 1.8; }
+    .accent-line { width: 70px; height: 8px; border-radius: 999px; background: var(--gold); }
+    .demo-grid, .settings-grid { display:grid; grid-template-columns: 0.92fr 1.08fr; gap: 22px; }
+    .section-panel { padding: 28px; }
+    .steps { display:grid; gap: 12px; margin-top: 24px; }
+    .step { display:flex; gap:14px; padding:16px; border-radius:18px; border:1px solid var(--line); background: rgba(2,6,23,0.45); }
+    .step-num { width:34px; height:34px; flex:0 0 34px; border-radius:50%; background: var(--gold); color:#111827; display:flex; align-items:center; justify-content:center; font-weight:900; }
+    .demo-box { border-radius: 24px; border:1px solid var(--line); padding: 24px; background: rgba(2,6,23,0.75); }
+    .logo-box { width: 84px; height: 84px; border-radius: 24px; background: var(--gold); color:#111827; font-weight: 900; display:flex; align-items:center; justify-content:center; font-size: 34px; margin: 0 auto; }
+    .settings-panel { padding: 24px; background: rgba(2,6,23,0.8); }
+    .settings-list { display:grid; gap: 14px; }
+    .field { border:1px solid var(--line); border-radius: 18px; padding: 14px; background: rgba(255,255,255,0.04); }
+    .field label { display:block; margin-bottom:8px; color: rgba(255,255,255,0.82); font-weight:700; font-size:14px; }
+    .field select, .field input, .field textarea {
+      width:100%; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: #0f172a; color:white;
+      padding: 12px 14px; font: inherit;
+    }
+    .price-grid { display:grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+    .price { padding: 24px; }
+    .price.highlight { background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.35); }
+    .price h3 { margin:0; font-size: 28px; }
+    .price .tag { display:inline-block; margin-top:6px; color: var(--muted); }
+    .price .amount { margin-top: 24px; font-size: 42px; color: var(--gold); font-weight: 900; }
+    .price ul { padding-left: 18px; color: var(--muted); line-height: 1.9; min-height: 150px; }
+    .footer-cta { padding: 32px; border-radius: 34px; border: 1px solid var(--line); background: linear-gradient(90deg, rgba(251,191,36,0.14), rgba(255,255,255,0.05), rgba(59,130,246,0.14)); }
+    .small { font-size: 13px; color: rgba(255,255,255,0.6); }
+    @media (max-width: 1100px) {
+      .hero, .demo-grid, .settings-grid { grid-template-columns: 1fr; }
+      .price-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 760px) {
+      .nav { border-radius: 26px; align-items: flex-start; }
+      .nav-links { display:none; }
+      .stats, .grid-3, .price-grid, .mini-grid { grid-template-columns: 1fr; }
+      .wrap { padding: 18px 16px 56px; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="nav">
+      <div>
+        <div class="brand-kicker">Checkout Champs</div>
+        <div class="brand-sub">Conversion engine for stores that want checkout to hit harder</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#why">Why it works</a>
+        <a href="#demo">Demo</a>
+        <a href="#settings">Settings</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Turn checkout hesitation into an earned reward moment.</h1>
+        <p class="lede">Checkout Champs adds a fast skill-based conversion layer to your store so discounts feel earned, shoppers stay engaged, and more carts make it across the finish line.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="./demo/">Try Checkout Champs</a>
+          <a class="btn btn-secondary" href="#settings">Edit merchant settings</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>&lt;10s</strong><span>Fast reward loop so checkout stays smooth.</span></div>
+          <div class="stat"><strong>0 dead ends</strong><span>Every completed interaction earns something.</span></div>
+          <div class="stat"><strong>Full control</strong><span>Manage subscriptions and customer flow from your own site.</span></div>
+        </div>
+      </div>
+
+      <div class="live-preview">
+        <div class="live-inner">
+          <div class="preview-top">
+            <div>
+              <div class="eyebrow">Live preview</div>
+              <div class="preview-title">Unlock your reward</div>
+            </div>
+            <div class="pill">Active demo</div>
+          </div>
+          <div class="challenge">
+            <div class="challenge-row"><span>Timing Bar Challenge</span><span>Top reward: 15%</span></div>
+            <div class="bar"><div class="center-zone"></div><div class="marker"></div></div>
+            <div class="note">Bullseye-level stop? Reward goes up. Miss it and the customer still gets something. No dead round. No dead sale.</div>
+            <div class="mini-grid">
+              <div class="mini"><label>Reward</label><strong>12% Off</strong></div>
+              <div class="mini"><label>Code</label><strong>CHAMPS12</strong></div>
+              <div class="mini"><label>Feel</label><strong>Earned</strong></div>
+            </div>
+            <div class="cta-row" style="margin-top:18px;">
+              <a class="btn btn-secondary" style="width:100%; background:#fff; color:#111827;" href="./demo/">Open full demo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="why">
+      <div class="section-head">
+        <div class="eyebrow">Why it works</div>
+        <h2>This is not a gimmick box dropped on checkout.</h2>
+        <p>Checkout Champs is a conversion trigger. It gives merchants a new moment to catch attention, reduce abandonment friction, and make discounts feel deserved instead of cheap.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="accent-line"></div><h3>Lift checkout conversion</h3><p>Turn hesitation into action with a fast skill-based reward moment that feels earned instead of spammy.</p></div>
+        <div class="card"><div class="accent-line"></div><h3>Own the relationship</h3><p>Sell and manage Checkout Champs from your own site so billing, customer flow, and future upgrades stay in your control.</p></div>
+        <div class="card"><div class="accent-line"></div><h3>Install fast</h3><p>Start with Wix, then expand anywhere a merchant can place a script or widget. The platform becomes the pipe, not the boss.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="demo-grid">
+        <div class="section-panel">
+          <div class="eyebrow">Try it now</div>
+          <h2>Show shoppers and merchants how it works in seconds.</h2>
+          <p class="lede" style="font-size:18px; max-width:none;">Put the live demo front and center so visitors can try Checkout Champs before they commit.</p>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div>Start your free trial.</div></div>
+            <div class="step"><div class="step-num">2</div><div>Try the live Checkout Champs demo.</div></div>
+            <div class="step"><div class="step-num">3</div><div>Choose the settings that fit your store.</div></div>
+            <div class="step"><div class="step-num">4</div><div>Install the widget and go live.</div></div>
+          </div>
+        </div>
+        <div class="section-panel" style="background: linear-gradient(135deg, rgba(251,191,36,0.10), rgba(59,130,246,0.10));">
+          <div class="demo-box">
+            <div class="preview-top" style="border-bottom:none; padding-bottom:0; margin-bottom:16px;">
+              <div>
+                <div class="eyebrow">Demo route</div>
+                <div class="preview-title">./demo/</div>
+              </div>
+              <div class="pill">Embed-ready</div>
+            </div>
+            <div class="card" style="background: rgba(255,255,255,0.03); text-align:center; box-shadow:none;">
+              <div class="logo-box">CC</div>
+              <h3 style="margin-top:20px;">Interactive Checkout Champs Demo</h3>
+              <p>Link this to your hosted widget or production demo so merchants can test the experience without booking a call first.</p>
+              <div class="cta-row" style="justify-content:center;">
+                <a class="btn btn-primary" href="./demo/">Launch demo</a>
+                <a class="btn btn-secondary" href="#pricing">See plans</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="settings">
+      <div class="settings-grid">
+        <div>
+          <div class="section-head" style="margin-bottom:18px;">
+            <div class="eyebrow">Merchant settings</div>
+            <h2>Preview the settings for your store.</h2>
+            <p>Give store owners a clear way to preview how Checkout Champs will look and behave before they install it.</p>
+          </div>
+          <div class="section-panel">
+            <div class="small">This preview form can talk to the backend right now. It creates merchants, saves settings, and logs events so you can start collecting live data early.</div>
+          </div>
+        </div>
+        <div class="settings-panel">
+          <div class="preview-top" style="border-bottom:none; padding-bottom:0; margin-bottom:18px;">
+            <div>
+              <div class="eyebrow">Preview builder</div>
+              <div class="preview-title">Personal settings</div>
+            </div>
+            <div class="pill">Merchant-facing</div>
+          </div>
+          <form id="merchant-form">
+            <div class="settings-list">
+              <div class="field"><label>Business name</label><input name="business_name" placeholder="Example: TechZhub" required /></div>
+              <div class="field"><label>Email</label><input type="email" name="email" placeholder="you@store.com" required /></div>
+              <div class="field"><label>Store platform</label><select name="platform"><option>Wix</option><option>Shopify</option><option>Squarespace</option><option>Custom Site</option></select></div>
+              <div class="field"><label>Store niche</label><input name="niche" placeholder="Fashion, Tech, Home, Supplements..." /></div>
+              <div class="field"><label>Plan</label><select name="plan"><option value="starter">Starter - $9/mo</option><option value="growth">Growth - $29/mo</option><option value="pro">Pro - $79/mo</option><option value="founding">Founding Merchant - Custom</option></select></div>
+              <div class="field"><label>Theme mode</label><select name="theme_mode"><option>Auto-detect</option><option>Light</option><option>Dark</option></select></div>
+              <div class="field"><label>Primary reward style</label><select name="reward_style"><option>Skill-based discount</option><option>Instant reveal</option><option>Tiered reward</option></select></div>
+              <div class="field"><label>Top reward cap</label><select name="reward_cap"><option>10%</option><option>12%</option><option selected>15%</option><option>20%</option></select></div>
+              <div class="field"><label>Entry trigger</label><select name="entry_trigger"><option>Floating beacon</option><option>Cart drawer</option><option>Checkout section</option></select></div>
+              <div class="field"><label>Brand voice</label><select name="brand_voice"><option>Test your skill</option><option>Unlock your reward</option><option>Earn your discount</option></select></div>
+            </div>
+            <input type="hidden" name="merchant_id" id="merchant_id" />
+            <div class="cta-row" style="margin-top:18px;">
+              <button class="btn btn-primary" type="submit">Save preview settings</button>
+              <a class="btn btn-secondary" href="./demo/">Test with these settings</a>
+            </div>
+            <div id="form-status" class="small" style="margin-top:12px;"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="section-head" style="max-width:none; display:flex; justify-content:space-between; align-items:end; gap:16px;">
+        <div>
+          <div class="eyebrow">Pricing</div>
+          <h2>Simple plans for stores ready to convert more checkouts.</h2>
+        </div>
+        <div class="small">Start with a free trial</div>
+      </div>
+      <div class="price-grid">
+        <div class="price">
+          <h3>Starter</h3><div class="tag">Best for small early stores</div>
+          <div class="amount">$9/mo</div>
+          <ul><li>1 live store</li><li>Manual onboarding</li><li>Basic reward settings</li><li>Email support</li></ul>
+          <button class="btn btn-secondary" style="width:100%;">Start free trial</button>
+        </div>
+        <div class="price highlight">
+          <h3>Growth</h3><div class="tag">Best for serious stores</div>
+          <div class="amount">$29/mo</div>
+          <ul><li>1 live store</li><li>Full widget controls</li><li>Merchant settings</li><li>No branding</li></ul>
+          <button class="btn btn-primary" style="width:100%;">Start free trial</button>
+        </div>
+        <div class="price">
+          <h3>Pro</h3><div class="tag">For stores pushing harder</div>
+          <div class="amount">$79/mo</div>
+          <ul><li>Up to 3 stores</li><li>Priority support</li><li>Expanded reward control</li><li>Better reporting</li></ul>
+          <button class="btn btn-secondary" style="width:100%;">Start free trial</button>
+        </div>
+        <div class="price">
+          <h3>Founding Merchant</h3><div class="tag">Early partner tier</div>
+          <div class="amount">Custom</div>
+          <ul><li>White-glove setup</li><li>Direct feedback loop</li><li>Feature priority input</li><li>Case-study consideration</li></ul>
+          <button class="btn btn-secondary" style="width:100%;">Talk to us</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="footer-cta">
+        <div class="eyebrow">Get started</div>
+        <h2 style="margin:10px 0 0;">Turn more checkouts into completed sales.</h2>
+        <p class="lede" style="font-size:18px; max-width:760px;">Start with a live demo, choose your settings, and launch Checkout Champs on your store.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="./demo/">Try the demo</a>
+          <a class="btn btn-secondary" href="#settings">Configure your version</a>
+          <a class="btn btn-secondary" href="./admin/">Open admin view</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const API_BASE = localStorage.getItem('cc_api_base') || 'http://localhost:3000';
+    const merchantForm = document.getElementById('merchant-form');
+    const statusEl = document.getElementById('form-status');
+    const merchantIdInput = document.getElementById('merchant_id');
+
+    async function logEvent(eventType, metadata = {}) {
+      try {
+        await fetch(API_BASE + '/api/events/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            merchant_id: merchantIdInput.value || 'public_site',
+            session_id: localStorage.getItem('cc_session_id') || (function() {
+              const id = 'sess_' + Math.random().toString(36).slice(2, 10);
+              localStorage.setItem('cc_session_id', id);
+              return id;
+            })(),
+            event_type: eventType,
+            page: 'landing',
+            metadata
+          })
+        });
+      } catch (err) {
+        console.warn('Event logging unavailable:', err.message);
+      }
+    }
+
+    logEvent('landing_viewed', { source: 'index' });
+
+    merchantForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Saving merchant and settings...';
+      const formData = new FormData(merchantForm);
+      const payload = Object.fromEntries(formData.entries());
+
+      try {
+        let merchantId = payload.merchant_id;
+
+        if (!merchantId) {
+          const createRes = await fetch(API_BASE + '/api/merchant/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              business_name: payload.business_name,
+              email: payload.email,
+              platform: payload.platform,
+              niche: payload.niche,
+              plan: payload.plan
+            })
+          });
+          const created = await createRes.json();
+          if (!createRes.ok) throw new Error(created.error || 'Failed to create merchant');
+          merchantId = created.merchant_id;
+          merchantIdInput.value = merchantId;
+          localStorage.setItem('cc_merchant_id', merchantId);
+        }
+
+        const settingsRes = await fetch(API_BASE + '/api/merchant/save-settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            merchant_id: merchantId,
+            theme_mode: payload.theme_mode,
+            reward_style: payload.reward_style,
+            reward_cap: payload.reward_cap,
+            entry_trigger: payload.entry_trigger,
+            brand_voice: payload.brand_voice
+          })
+        });
+        const saved = await settingsRes.json();
+        if (!settingsRes.ok) throw new Error(saved.error || 'Failed to save settings');
+
+        await logEvent('settings_saved', {
+          merchant_id: merchantId,
+          platform: payload.platform,
+          plan: payload.plan,
+          reward_cap: payload.reward_cap
+        });
+
+        statusEl.textContent = 'Saved. Merchant ID: ' + merchantId + ' — you can now test or inspect this in admin.';
+      } catch (err) {
+        statusEl.textContent = 'Saved locally only. Backend not reachable yet: ' + err.message;
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
